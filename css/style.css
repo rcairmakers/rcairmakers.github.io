@@ -1,1 +1,7 @@
 /* R&C Airmakers v2.1 stylesheet placeholder */
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f7f9fc;
+    color:#222;
+}
