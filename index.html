@@ -1,1 +1,540 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>R&C Airmakers</title><link rel='stylesheet' href='css/style.css'></head><body><nav><h2>R&C Airmakers</h2></nav><section class='hero'><h1>Professional Air Conditioning Solutions</h1><p>Installation • Cleaning • Repair</p></section><script src='js/main.js'></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R&C Airmakers Engineering Services</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#071a35;
+    color:#fff;
+}
+
+header{
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(10px);
+    padding:15px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+}
+
+.logo img{
+    height:70px;
+    width:auto;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:500;
+}
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(rgba(7,26,53,.85),rgba(7,26,53,.85)),
+    url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789');
+    background-size:cover;
+    background-position:center;
+}
+
+.hero-content{
+    max-width:900px;
+}
+
+.hero h1{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:1.2rem;
+    margin-bottom:30px;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:50px 20px;
+
+    background:
+    linear-gradient(
+    rgba(7,26,53,.85),
+    rgba(7,26,53,.85)
+    ),
+    url('images/hero.png');
+
+    background-size:cover;
+    background-position:center;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 30px;
+    margin:10px;
+    border-radius:50px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+    background:#0d6efd;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+section{
+    padding:80px 8%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+    font-size:2rem;
+    color:#28a9ff;
+}
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#0d274f;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.team{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.member{
+    background:#0d274f;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:15px;
+}
+
+.gallery img{
+    width:100%;
+    border-radius:15px;
+}
+
+.contact{
+    text-align:center;
+}
+
+footer{
+    background:#021122;
+    padding:30px;
+    text-align:center;
+}
+
+footer p{
+    margin:10px 0;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2rem;
+}
+
+nav{
+    display:none;
+}
+
+}
+.call-btn{
+    background:#0d6efd;
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:30px;
+    font-weight:600;
+}
+
+.call-btn:hover{
+    opacity:.9;
+}
+
+.messenger-float{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    width:65px;
+    height:65px;
+    background:#0084ff;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    text-decoration:none;
+    box-shadow:0 5px 20px rgba(0,0,0,.4);
+    z-index:9999;
+    transition:.3s;
+}
+
+.messenger-float:hover{
+    transform:scale(1.1);
+}
+
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    padding:40px 8%;
+}
+
+.stat-card{
+    background:#0d274f;
+    padding:30px;
+    text-align:center;
+    border-radius:15px;
+}
+
+.stat-card h2{
+    color:#28a9ff;
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.footer-banner{
+    width:100%;
+}
+
+.footer-banner img{
+    width:100%;
+    display:block;
+}
+
+.footer-bottom{
+    background:#021122;
+    text-align:center;
+    padding:25px;
+}
+
+.footer-bottom p{
+    margin:8px 0;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<header>
+
+<div class="logo">
+    <img src="images/logo.png" alt="R&C Airmakers Logo">
+</div>
+
+<nav>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#team">Team</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<a href="tel:09486060845" class="call-btn">
+    📞 Call Now
+</a>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Professional Air Conditioning Solutions</h1>
+
+<p>
+Hindi Lang Aircon ang Binibenta Namin —
+Komportable at Preskong Buhay Din.
+</p>
+
+<a href="#contact" class="btn">Request a Quote</a>
+
+<a href="https://facebook.com/RCairmakersbulacan" class="btn">
+Message Us
+</a>
+
+</div>
+
+</section>
+
+<section id="about">
+
+<h2 class="section-title">About Us</h2>
+
+<section class="stats">
+
+<div class="stat-card">
+<h2>1000+</h2>
+<p>Projects Completed</p>
+</div>
+
+<div class="stat-card">
+<h2>500+</h2>
+<p>Satisfied Clients</p>
+</div>
+
+<div class="stat-card">
+<h2>10+</h2>
+<p>Professional Technicians</p>
+</div>
+
+<div class="stat-card">
+<h2>5★</h2>
+<p>Customer Rating</p>
+</div>
+
+</section>
+
+<p style="text-align:center;max-width:900px;margin:auto;">
+R&C Airmakers Engineering Services provides professional air conditioning installation, cleaning, maintenance, troubleshooting, repair, and commercial HVAC solutions throughout Bulacan and nearby areas.
+</p>
+
+</section>
+
+<section id="services">
+
+<h2 class="section-title">Our Services</h2>
+
+<div class="services">
+
+<div class="card">
+<h3>Aircon Installation</h3>
+<p>Professional residential and commercial installations.</p>
+</div>
+
+<div class="card">
+<h3>Aircon Cleaning</h3>
+<p>General and chemical cleaning services.</p>
+</div>
+
+<div class="card">
+<h3>Preventive Maintenance</h3>
+<p>Keep your units efficient and reliable.</p>
+</div>
+
+<div class="card">
+<h3>Repair & Troubleshooting</h3>
+<p>Fast diagnosis and dependable repairs.</p>
+</div>
+
+<div class="card">
+<h3>Freon Charging</h3>
+<p>Restore cooling performance.</p>
+</div>
+
+<div class="card">
+<h3>Commercial HVAC</h3>
+<p>Solutions for offices and businesses.</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="gallery">
+
+<h2 class="section-title">Projects Gallery</h2>
+
+<div class="gallery">
+
+<img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4">
+
+<img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952">
+
+<img src="https://images.unsplash.com/photo-1556912167-f556f1f39fdf">
+
+</div>
+
+</section>
+
+<section id="team">
+
+<h2 class="section-title">Meet Our Team</h2>
+
+<div class="team">
+
+<div class="member">
+<h3>Ronnie Rivera</h3>
+<p>Chief Executive Officer (CEO)</p>
+</div>
+
+<div class="member">
+<h3>Judith Pamposa</h3>
+<p>HR Officer</p>
+</div>
+
+<div class="member">
+<h3>HVAC Technical Team</h3>
+<p>Professional Installation & Service Specialists</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="reviews">
+
+<h2 class="section-title">
+Customer Reviews
+</h2>
+
+<div class="team">
+
+<div class="member">
+
+⭐⭐⭐⭐⭐
+
+<p>
+Professional installation and excellent service.
+</p>
+
+</div>
+
+<div class="member">
+
+⭐⭐⭐⭐⭐
+
+<p>
+Very responsive and highly recommended.
+</p>
+
+</div>
+
+<div class="member">
+
+⭐⭐⭐⭐⭐
+
+<p>
+Quality workmanship and fair pricing.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="contact">
+
+<h2 class="section-title">Contact Us</h2>
+
+<div class="contact">
+
+<p>📍 B90 L22 Pagsikap Street, Pasinaya Phase 4, Catmon, Santa Maria, Bulacan</p>
+
+<p>📱 0948-606-0845</p>
+
+<p>📧 riveraronnie07@gmail.com</p>
+
+<p>📘 facebook.com/RCairmakersbulacan</p>
+
+<iframe
+src="https://www.google.com/maps?q=Santa+Maria+Bulacan&output=embed"
+width="100%"
+height="400"
+style="border:0;border-radius:15px;margin-top:20px;"
+allowfullscreen=""
+loading="lazy">
+</iframe>
+
+</div>
+
+</section>
+
+<footer>
+
+<div class="footer-banner">
+
+<img src="images/footer-banner.png"
+     alt="R&C Airmakers Footer Banner">
+
+</div>
+
+<div class="footer-bottom">
+
+<p>
+© 2026 R&C Airmakers Engineering Services
+</p>
+
+<p>
+Your Comfort, Our Priority.
+</p>
+
+</div>
+
+</footer>
+
+</body>
+
+<!-- Messenger Floating Button -->
+
+<a href="https://facebook.com/RCairmakersbulacan"
+   class="messenger-float"
+   target="_blank">
+
+    💬
+
+</a>
+
+</html>
+```
