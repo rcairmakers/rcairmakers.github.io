@@ -1,3 +1,17 @@
 // R&C Airmakers v2.1 script placeholder
+window.addEventListener("scroll",function(){
 
-console.log("R&C Airmakers v3 Loaded");
+const nav=document.querySelector(".rc-navbar");
+
+if(window.scrollY>80){
+
+nav.classList.add("scrolled");
+
+}else{
+
+nav.classList.remove("scrolled");
+
+}
+
+});
+
