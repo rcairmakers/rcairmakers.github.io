@@ -647,3 +647,50 @@ footer p {
         display: none;
     }
 }
+
+/* --- Gallery Slider Module (Native Swipe Left-to-Right) --- */
+.gallery-slider {
+    display: flex;                    /* Changes layout structure from columns to a single row */
+    overflow-x: auto;                 /* Enables horizontal swiping gesture mechanics */
+    scroll-snap-type: x mandatory;    /* Adds a magnetic snapping effect on touchscreens */
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 10px 0 25px;             /* Padding prevents scrollbar clipping */
+    
+    /* Elegant thin scrollbar logic for Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #28a9ff rgba(13, 39, 79, 0.5);
+}
+
+/* Modern minimalist scrollbars for Webkit Engines (Chrome, Safari, Edge) */
+.gallery-slider::-webkit-scrollbar {
+    height: 8px;
+}
+
+.gallery-slider::-webkit-scrollbar-track {
+    background: rgba(13, 39, 79, 0.5);
+    border-radius: 10px;
+}
+
+.gallery-slider::-webkit-scrollbar-thumb {
+    background: #28a9ff;
+    border-radius: 10px;
+}
+
+/* Individual Image Panels Inside the Carousel Row */
+.gallery-slider img {
+    flex: 0 0 clamp(290px, 45vw, 400px); /* Keeps slides perfectly proportioned automatically */
+    scroll-snap-align: start;            /* Locks image cleanly flush to viewport border on snap */
+    width: 100%;
+    aspect-ratio: 16 / 10;                /* Provides uniform landscape framing layout */
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Clean micro-interaction depth effects on hover */
+.gallery-slider img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(40, 169, 255, 0.2);
+}
