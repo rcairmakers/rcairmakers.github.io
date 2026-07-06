@@ -638,13 +638,12 @@ footer p {
 }
 
 /* Mobile Devices */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2rem; /* Fallback fallback for non-clamp supporting browsers */
-    }
-
-    nav {
-        display: none;
+/* --- Make About Image Flyer Larger on Desktop (Web) --- */
+@media (min-width: 992px) {
+    .about-image img {
+        max-width: 550px; /* Increased from 420px to let it fill out the space */
+        width: 100%;
+        height: auto;
     }
 }
 
