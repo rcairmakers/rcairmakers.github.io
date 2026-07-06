@@ -29,13 +29,12 @@ img {
 /* --- 2. Navigation & Header --- */
 /* Native Header Layout */
 header {
-    background: rgba(7, 26, 53, 0.85); /* Use your deep theme blue with transparency */
+    background: rgba(7, 26, 53, 0.95); /* Deep theme blue background */
     backdrop-filter: blur(10px);
-    width: 100%;                       /* Force it full viewport width */
-    max-width: 100%;
-    padding: 15px 5%;                  /* Generous left/right spacing */
+    width: 100% !important;            /* Force it to fill the mobile width */
+    padding: 15px 20px;                /* Consistent clean edge padding */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;    /* Spreads Logo, Hamburger, and Call button evenly */
     align-items: center;
     position: sticky;
     top: 0;
@@ -725,10 +724,39 @@ footer p {
 
 /* Mobile Screen Layout Rules */
 @media (max-width: 768px) {
-    /* Show the hamburger lines button on mobile screens */
+    /* Ensure the toggle button is explicitly visible on mobile */
     .menu-toggle {
-        display: flex;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 21px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1001;
+        order: 2; /* Forces it to sit neatly in the layout flow */
     }
+
+    .menu-toggle .bar {
+        height: 3px;
+        width: 100%;
+        background-color: #ffffff; /* Bright white color lines */
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    /* Make sure the Call button scales nicely next to it */
+    .call-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        order: 3;
+    }
+    
+    .logo {
+        order: 1;
+    }
+}
 
     /* Transform the navigation links into a dropdown overlay mobile menu */
     .nav-menu {
