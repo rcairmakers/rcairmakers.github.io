@@ -14,21 +14,29 @@
 
 <header>
 
-<div class="logo">
-    <img src="images/logo.png" alt="R&C Airmakers Logo">
-</div>
+<header>
+    <div class="logo">
+        <img src="images/logo.png" alt="R&C Airmakers Logo">
+    </div>
 
-<nav>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#team">Team</a>
-    <a href="#contact">Contact</a>
-</nav>
+    <button class="menu-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
 
-<a href="tel:09486060845" class="call-btn">
-    📞 Call Now
-</a>
+    <nav class="nav-menu">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <a href="tel:09486060845" class="call-btn">
+        📞 Call Now
+    </a>
+</header>
 
 </header>
 
@@ -344,6 +352,26 @@ Your Comfort, Our Priority.
 
 </footer>
 
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-menu a');
+
+    // Toggle menu appearance on click
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Automatically close mobile menu when a section link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+</script>
+
 </body>
 
 <!-- Messenger Floating Button -->
@@ -357,4 +385,3 @@ Your Comfort, Our Priority.
 </a>
 
 </html>
-```

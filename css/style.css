@@ -29,9 +29,11 @@ img {
 /* --- 2. Navigation & Header --- */
 /* Native Header Layout */
 header {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(7, 26, 53, 0.85); /* Use your deep theme blue with transparency */
     backdrop-filter: blur(10px);
-    padding: 15px 8%;
+    width: 100%;                       /* Force it full viewport width */
+    max-width: 100%;
+    padding: 15px 5%;                  /* Generous left/right spacing */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -181,7 +183,8 @@ nav a {
 .hero-content {
     position: relative;
     width: 100%;
-    max-width: 950px; /* Slightly widened to gracefully handle long tech words */
+    max-width: 1200px; /* Increased from 950px to prevent word-stack compression */
+    padding: 0 40px;   /* Safe inner margins */
     z-index: 2;
 }
 
@@ -198,20 +201,19 @@ nav a {
 
 /* FIX: Incremented line-height to 1.25 so stacked words never clash */
 .hero h1 {
-    font-size: clamp(2.4rem, 6.5vw, 4.5rem); 
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem); /* Slightly optimized responsive tuning */
     font-weight: 800;
-    margin-bottom: 25px;
-    line-height: 1.25; 
-    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    line-height: 1.2;  
+    letter-spacing: -0.01em;
 }
 
-/* FIX: Softly padded text shadow makes white subtexts readable across complex background assets */
 .hero p {
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-size: clamp(1rem, 2vw, 1.4rem);    /* Let the taglines stretch gracefully across desktop wide screens */
     opacity: .95;
-    margin-bottom: 35px;
-    line-height: 1.6;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); 
+    margin-bottom: 40px;
+    line-height: 1.5;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); 
 }
 
 .hero-buttons {
@@ -693,5 +695,78 @@ footer p {
     .gallery-slider img:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 30px rgba(40, 169, 255, 0.2);
+    }
+}
+
+/* ==========================================================================
+   Hamburger Menu Styles
+   ========================================================================== */
+
+/* Hide hamburger button by default (Desktop/Web View) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-toggle .bar {
+    height: 3px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Screen Layout Rules */
+@media (max-width: 768px) {
+    /* Show the hamburger lines button on mobile screens */
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Transform the navigation links into a dropdown overlay mobile menu */
+    .nav-menu {
+        position: fixed;
+        left: -100%; /* Hidden off-screen by default */
+        top: 0;
+        gap: 0;
+        flex-direction: column;
+        background-color: rgba(7, 26, 53, 0.95); /* Matches your dark blue theme */
+        backdrop-filter: blur(10px);
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+        transition: 0.3s ease;
+        padding-top: 100px; /* Space so logo/header doesn't block top links */
+        z-index: 1000;
+    }
+
+    /* Stack individual navigation anchor tags nicely on mobile menu */
+    .nav-menu a {
+        display: block;
+        margin: 20px 0;
+        font-size: 1.3rem;
+    }
+
+    /* Active Class: Slides the mobile navigation smoothly onto the screen */
+    .nav-menu.active {
+        left: 0;
+    }
+
+    /* Optional: Animates hamburger into an "X" when open */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
     }
 }
