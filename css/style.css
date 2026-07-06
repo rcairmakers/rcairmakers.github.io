@@ -649,48 +649,50 @@ footer p {
 }
 
 /* --- Gallery Slider Module (Native Swipe Left-to-Right) --- */
+/* --- Gallery Slider Module (Touch & Swipe Mobile Layout) --- */
 .gallery-slider {
-    display: flex;                    /* Changes layout structure from columns to a single row */
-    overflow-x: auto;                 /* Enables horizontal swiping gesture mechanics */
-    scroll-snap-type: x mandatory;    /* Adds a magnetic snapping effect on touchscreens */
+    display: flex;                    
+    overflow-x: auto;                 /* Critical: Enables dragging/swiping on touch devices */
+    scroll-snap-type: x mandatory;    /* Critical: Creates native app magnetic locking feel */
     scroll-behavior: smooth;
-    gap: 20px;
-    padding: 10px 0 25px;             /* Padding prevents scrollbar clipping */
+    gap: 15px;                        /* Slightly tighter gaps on mobile views */
+    padding: 10px 0 25px;             
+    -webkit-overflow-scrolling: touch; /* FIX: Smooth kinetic momentum scrolling on iPhones/iOS */
     
-    /* Elegant thin scrollbar logic for Firefox */
     scrollbar-width: thin;
     scrollbar-color: #28a9ff rgba(13, 39, 79, 0.5);
 }
 
-/* Modern minimalist scrollbars for Webkit Engines (Chrome, Safari, Edge) */
+/* Scrollbar Customization for Desktop Browsers */
 .gallery-slider::-webkit-scrollbar {
     height: 8px;
 }
-
 .gallery-slider::-webkit-scrollbar-track {
     background: rgba(13, 39, 79, 0.5);
     border-radius: 10px;
 }
-
 .gallery-slider::-webkit-scrollbar-thumb {
     background: #28a9ff;
     border-radius: 10px;
 }
 
-/* Individual Image Panels Inside the Carousel Row */
+/* Individual Image Panels (Auto-scales per viewport) */
 .gallery-slider img {
-    flex: 0 0 clamp(290px, 45vw, 400px); /* Keeps slides perfectly proportioned automatically */
-    scroll-snap-align: start;            /* Locks image cleanly flush to viewport border on snap */
+    /* FIX: min(85%, 400px) ensures images never exceed small mobile screens */
+    flex: 0 0 min(85%, 400px); 
+    scroll-snap-align: center;         /* FIX: Centers the picture beautifully in mid-swipe on phones */
     width: 100%;
-    aspect-ratio: 16 / 10;                /* Provides uniform landscape framing layout */
+    aspect-ratio: 16 / 10;                
     object-fit: cover;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Clean micro-interaction depth effects on hover */
-.gallery-slider img:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(40, 169, 255, 0.2);
+/* Disable desktop animation layout lifts on touch to keep tracking lightweight */
+@media (hover: hover) {
+    .gallery-slider img:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(40, 169, 255, 0.2);
+    }
 }
