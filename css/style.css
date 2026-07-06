@@ -156,6 +156,7 @@ nav a {
 
 
 /* --- 4. Section - Hero --- */
+/* --- 4. Fluid Hero Section (Typography Line Height & Contrast Fix) --- */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -163,7 +164,7 @@ nav a {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 120px 20px;
+    padding: clamp(100px, 15vw, 140px) 20px;
     background: linear-gradient(rgba(0, 0, 0, .60), rgba(0, 0, 0, .60)), url("../images/hero.png");
     background-size: cover;
     background-position: center;
@@ -179,46 +180,45 @@ nav a {
 
 .hero-content {
     position: relative;
-    max-width: 900px;
+    width: 100%;
+    max-width: 950px; /* Slightly widened to gracefully handle long tech words */
     z-index: 2;
 }
 
 .hero-badge {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 8px 18px;
     background: rgba(255, 255, 255, .18);
     border: 1px solid rgba(255, 255, 255, .30);
     border-radius: 50px;
     margin-bottom: 25px;
     backdrop-filter: blur(15px);
+    font-size: clamp(0.8rem, 1.8vw, 0.95rem);
 }
 
+/* FIX: Incremented line-height to 1.25 so stacked words never clash */
 .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.4rem, 6.5vw, 4.5rem); 
     font-weight: 800;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    line-height: 1.25; 
+    letter-spacing: -0.02em;
 }
 
+/* FIX: Softly padded text shadow makes white subtexts readable across complex background assets */
 .hero p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
     opacity: .95;
     margin-bottom: 35px;
+    line-height: 1.6;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); 
 }
 
 .hero-buttons {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap;
-}
-
-.hero-rating {
-    margin-top: 35px;
-    font-size: 1.1rem;
-}
-
-.hero-rating span {
-    margin-left: 10px;
+    flex-wrap: wrap; 
 }
 
 
