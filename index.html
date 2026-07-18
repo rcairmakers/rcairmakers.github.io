@@ -369,7 +369,7 @@
     // 2. Share the Sheet -> "Anyone with the link" -> Viewer
     // 3. Copy the Sheet ID from its URL:
     //    https://docs.google.com/spreadsheets/d/PASTE_THIS_PART_HERE/edit
-    // 4. Paste it below. That's the only code edit needed - ever.
+    // 4. Paste it below, between the quotes.
     const PROMOS_SHEET_ID = "1aL8449Xc3xgqcJS0OIR6BZSHXFTAVKSoICo_JtLKLww";
     const PROMOS_SHEET_NAME = "Sheet1"; // change if you rename the tab
 
@@ -377,7 +377,7 @@
         const container = document.getElementById("promos-container");
         const section = document.getElementById("promos");
 
-        if (!PROMOS_SHEET_ID || PROMOS_SHEET_ID === "1aL8449Xc3xgqcJS0OIR6BZSHXFTAVKSoICo_JtLKLww") {
+        if (!PROMOS_SHEET_ID) {
             section.style.display = "none";
             return;
         }
