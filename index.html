@@ -373,6 +373,27 @@
     const PROMOS_SHEET_ID = "1aL8449Xc3xgqcJS0OIR6BZSHXFTAVKSoICo_JtLKLww";
     const PROMOS_SHEET_NAME = "Sheet1"; // change if you rename the tab
 
+    // Google Sheets gviz JSON returns date cells as "Date(YYYY,M,D)" (M is 0-indexed),
+    // not a normal date string - this parses that format safely.
+    function toDirectImageUrl(url) {
+        if (!url) return "";
+        const match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+        if (match) {
+            return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+        }
+        return url;
+    }
+
+    function parseGvizDate(v) {
+        if (!v) return null;
+        const match = String(v).match(/^Date\((\d+),(\d+),(\d+)\)$/);
+        if (match) {
+            return new Date(Number(match[1]), Number(match[2]), Number(match[3]));
+        }
+        const fallback = new Date(v);
+        return isNaN(fallback.getTime()) ? null : fallback;
+    }
+
     async function loadPromos() {
         const container = document.getElementById("promos-container");
         const section = document.getElementById("promos");
@@ -389,7 +410,8 @@
             const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
             const rows = json.table.rows;
 
-            const today = new Date().toISOString().slice(0, 10);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
             const promos = rows.map(r => {
                 const c = r.c;
                 return {
@@ -397,13 +419,13 @@
                     description: c[1] && c[1].v ? String(c[1].v) : "",
                     image: c[2] && c[2].v ? String(c[2].v) : "",
                     active: c[3] && c[3].v ? String(c[3].v).trim().toUpperCase() : "",
-                    expiry: c[4] && c[4].v ? String(c[4].v) : ""
+                    expiry: c[4] ? c[4].v : null
                 };
             }).filter(p => {
                 if (p.active !== "YES") return false;
                 if (p.expiry) {
-                    const expiryDate = new Date(p.expiry).toISOString().slice(0, 10);
-                    if (expiryDate < today) return false;
+                    const expiryDate = parseGvizDate(p.expiry);
+                    if (expiryDate && expiryDate < today) return false;
                 }
                 return p.title;
             });
@@ -418,7 +440,7 @@
                 const card = document.createElement("div");
                 card.className = "promo-card";
                 card.innerHTML = `
-                    ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : ""}
+                    ${p.image ? `<img src="${toDirectImageUrl(p.image)}" alt="${p.title}" loading="lazy">` : ""}
                     <div class="promo-body">
                         <h3>${p.title}</h3>
                         <p>${p.description}</p>
