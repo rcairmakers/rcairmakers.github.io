@@ -373,17 +373,21 @@
     const PROMOS_SHEET_ID = "1aL8449Xc3xgqcJS0OIR6BZSHXFTAVKSoICo_JtLKLww";
     const PROMOS_SHEET_NAME = "Sheet1"; // change if you rename the tab
 
-    // Google Sheets gviz JSON returns date cells as "Date(YYYY,M,D)" (M is 0-indexed),
-    // not a normal date string - this parses that format safely.
+    // Converts a Google Drive "share" link (drive.google.com/file/d/ID/view)
+    // into a direct-loadable image URL. Uses the /thumbnail endpoint, which is
+    // more reliable for hotlinking than the old uc?export=view format.
+    // NOTE: the file must still be shared as "Anyone with the link - Viewer".
     function toDirectImageUrl(url) {
         if (!url) return "";
         const match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
         if (match) {
-            return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+            return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
         }
         return url;
     }
 
+    // Google Sheets gviz JSON returns date cells as "Date(YYYY,M,D)" (M is 0-indexed),
+    // not a normal date string - this parses that format safely.
     function parseGvizDate(v) {
         if (!v) return null;
         const match = String(v).match(/^Date\((\d+),(\d+),(\d+)\)$/);
