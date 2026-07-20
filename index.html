@@ -363,7 +363,8 @@
     // ===== PROMOS FROM GOOGLE SHEET =====
     // 1. Create a Google Sheet with header row: Title | Description | ImageURL | Active | Expiry
     //    - Title, Description: text
-    //    - ImageURL: optional, link to a promo image (leave blank if none)
+    //    - ImageURL: path to a promo image hosted in this repo's /images folder
+    //      (e.g. "images/promo-aux-rainy.png"), leave blank if no image
     //    - Active: type YES to show it, NO (or blank) to hide it
     //    - Expiry: optional, format YYYY-MM-DD. Leave blank for no expiry.
     // 2. Share the Sheet -> "Anyone with the link" -> Viewer
@@ -372,19 +373,6 @@
     // 4. Paste it below, between the quotes.
     const PROMOS_SHEET_ID = "1aL8449Xc3xgqcJS0OIR6BZSHXFTAVKSoICo_JtLKLww";
     const PROMOS_SHEET_NAME = "Sheet1"; // change if you rename the tab
-
-    // Converts a Google Drive "share" link (drive.google.com/file/d/ID/view)
-    // into a direct-loadable image URL. Uses the /thumbnail endpoint, which is
-    // more reliable for hotlinking than the old uc?export=view format.
-    // NOTE: the file must still be shared as "Anyone with the link - Viewer".
-    function toDirectImageUrl(url) {
-        if (!url) return "";
-        const match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
-        if (match) {
-            return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
-        }
-        return url;
-    }
 
     // Google Sheets gviz JSON returns date cells as "Date(YYYY,M,D)" (M is 0-indexed),
     // not a normal date string - this parses that format safely.
@@ -444,7 +432,7 @@
                 const card = document.createElement("div");
                 card.className = "promo-card";
                 card.innerHTML = `
-                    ${p.image ? `<img src="${toDirectImageUrl(p.image)}" alt="${p.title}" loading="lazy">` : ""}
+                    ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : ""}
                     <div class="promo-body">
                         <h3>${p.title}</h3>
                         <p>${p.description}</p>
