@@ -469,6 +469,14 @@ nav {
     border-radius: 15px;
 }
 
+.gallery video {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    object-fit: cover;
+    display: block;
+}
+
 .brands-grid {
     display: flex;
     flex-wrap: wrap;
@@ -747,7 +755,8 @@ footer p {
     border-radius: 10px;
 }
 
-.gallery-slider img {
+.gallery-slider img,
+.gallery-slider video {
     flex: 0 0 auto;
     scroll-snap-align: center;
     height: 340px;
@@ -760,13 +769,15 @@ footer p {
 }
 
 @media (max-width: 768px) {
-    .gallery-slider img {
+    .gallery-slider img,
+    .gallery-slider video {
         height: 260px;
     }
 }
 
 @media (hover: hover) {
-    .gallery-slider img:hover {
+    .gallery-slider img:hover,
+    .gallery-slider video:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 30px rgba(40, 169, 255, 0.2);
     }
