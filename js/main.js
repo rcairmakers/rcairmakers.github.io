@@ -87,7 +87,8 @@ document.addEventListener('DOMContentLoaded', animateCounters);
     const calc = document.getElementById('calculator');
     if (!calc) return;
 
-    const PRICING = {
+    // Hardcoded fallback prices
+    const FALLBACK = {
         'Aircon Cleaning': { min: 800, max: 10500 },
         'Aircon Installation': { min: 4500, max: 31000 },
         'Repair & Troubleshooting': { min: 0, max: 28000 },
@@ -95,6 +96,50 @@ document.addEventListener('DOMContentLoaded', animateCounters);
         'Freon Charging': { min: 0, max: 0 },
         'Commercial HVAC': { min: 72500, max: 238000 }
     };
+
+    let livePricing = null;
+
+    // Fetch live service prices from Sheet
+    fetch(SHEET_URL + '?action=data&t=' + Date.now())
+        .then(r => r.json())
+        .then(data => {
+            const services = data.services || [];
+            if (services.length === 0) return;
+            const cats = {};
+            services.forEach(s => {
+                const cat = s.Category || '';
+                const price = Number(s.Price) || 0;
+                if (!cat || price <= 0) return;
+                if (!cats[cat]) cats[cat] = { min: price, max: price };
+                if (price < cats[cat].min) cats[cat].min = price;
+                if (price > cats[cat].max) cats[cat].max = price;
+            });
+            livePricing = {};
+            const map = {
+                'Regular Cleaning': 'Aircon Cleaning',
+                'Chemical Cleaning': 'Aircon Cleaning',
+                'Full Down Cleaning': 'Aircon Cleaning',
+                'Cleaning': 'Aircon Cleaning',
+                'Installation': 'Aircon Installation',
+                'Repair': 'Repair & Troubleshooting',
+                'Preventive Maintenance': 'Preventive Maintenance',
+                'Dismantling': 'Repair & Troubleshooting',
+                'Reprocess': 'Repair & Troubleshooting'
+            };
+            Object.keys(cats).forEach(cat => {
+                const target = map[cat];
+                if (!target) return;
+                if (!livePricing[target]) livePricing[target] = { min: cats[cat].min, max: cats[cat].max };
+                if (cats[cat].min < livePricing[target].min) livePricing[target].min = cats[cat].min;
+                if (cats[cat].max > livePricing[target].max) livePricing[target].max = cats[cat].max;
+            });
+        })
+        .catch(() => {});
+
+    function getPricing(service) {
+        const p = (livePricing && livePricing[service]) || FALLBACK[service] || { min: 0, max: 0 };
+        return p;
+    }
 
     const HP_ADDER = {
         '2.0 HP': 1000,
@@ -144,7 +189,7 @@ document.addEventListener('DOMContentLoaded', animateCounters);
     }
 
     function showEstimate() {
-        const pr = PRICING[selection.service];
+        const pr = getPricing(selection.service);
         if (!pr) return;
 
         let min = pr.min;
@@ -451,8 +496,9 @@ document.addEventListener('DOMContentLoaded', animateCounters);
                     (p.Type || '').toLowerCase().includes('split') || (p.Type || '').toLowerCase().includes('wall') ? 'split' : 'commercial',
                     parseFloat(p.HP) || 1.0,
                     p.Technology || 'Inverter',
+                    parseFloat(p.SrpPrice) || 0,
                     parseFloat(p.DiscountedPrice) || 0
-                ]).filter(p => p[5] > 0);
+                ]).filter(p => p[6] > 0);
             }
         } catch (e) {
             // Use hardcoded fallback
@@ -465,23 +511,28 @@ document.addEventListener('DOMContentLoaded', animateCounters);
         const filterType = TYPE_MAP[sel.unitType];
         const bAdj = BUDGET_FILTER[sel.budget] || BUDGET_FILTER.any;
         const catalog = liveCatalog || CATALOG;
+        const isLive = !!liveCatalog;
+
+        function getPrice(item) { return isLive ? (item[6] || 0) : (item[5] || 0); }
+        function getSrp(item) { return isLive ? (item[5] || 0) : 0; }
 
         let matches = catalog.filter(item => {
             if (item[3] < minHp || item[3] > maxHp) return false;
             if (filterType && item[2] !== filterType) return false;
-            if (bAdj.max && item[5] > bAdj.max) return false;
-            if (bAdj.min && item[5] < bAdj.min) return false;
+            const price = getPrice(item);
+            if (bAdj.max && price > bAdj.max) return false;
+            if (bAdj.min && price < bAdj.min) return false;
             return true;
         });
 
-        matches.sort((a, b) => a[5] - b[5]);
+        matches.sort((a, b) => getPrice(a) - getPrice(b));
 
         if (matches.length === 0) {
             matches = catalog.filter(item => {
                 if (item[3] < minHp || item[3] > maxHp) return false;
                 if (filterType && item[2] !== filterType) return false;
                 return true;
-            }).sort((a, b) => a[5] - b[5]);
+            }).sort((a, b) => getPrice(a) - getPrice(b));
         }
 
         const picks = [];
@@ -502,6 +553,9 @@ document.addEventListener('DOMContentLoaded', animateCounters);
         const tiers = ['budget', 'mid', 'premium'];
         picks.forEach((item, i) => {
             const tier = tiers[i] || 'mid';
+            const srp = getSrp(item);
+            const price = getPrice(item);
+            const savings = srp > price ? srp - price : 0;
             const card = document.createElement('div');
             card.className = 'est-pick' + (i === 1 ? ' featured' : '');
             card.innerHTML =
@@ -509,9 +563,11 @@ document.addEventListener('DOMContentLoaded', animateCounters);
                 '<div class="est-pick-brand">' + item[0] + '</div>' +
                 '<div class="est-pick-model">' + item[1] + '</div>' +
                 '<div class="est-pick-tech">' + item[3] + ' HP \u00B7 ' + item[4] + '</div>' +
-                '<div class="est-pick-price">' + fmt(item[5]) + '</div>' +
+                (savings > 0 ? '<div class="est-pick-srp">' + fmt(srp) + '</div>' : '') +
+                (savings > 0 ? '<div class="est-pick-save">Save ' + fmt(savings) + '</div>' : '') +
+                '<div class="est-pick-price">' + fmt(price) + '</div>' +
                 '<a class="est-pick-btn" href="https://m.me/RCairmakersbulacan?text=' +
-                encodeURIComponent('Hi! I\'m interested in the ' + item[0] + ' ' + item[1] + ' ' + item[3] + 'HP (' + item[4] + ') at ' + fmt(item[5]) + '. Is this available?') +
+                encodeURIComponent('Hi! I\'m interested in the ' + item[0] + ' ' + item[1] + ' ' + item[3] + 'HP (' + item[4] + ') at ' + fmt(price) + '. Is this available?') +
                 '" target="_blank" rel="noopener noreferrer">Inquire</a>';
             picksEl.appendChild(card);
         });
@@ -549,8 +605,47 @@ document.addEventListener('DOMContentLoaded', animateCounters);
     const form = document.getElementById('book-form');
     if (!form) return;
 
-    // Google Sheet Apps Script URL
     const BOOKING_URL = 'https://script.google.com/macros/s/AKfycbw62fw7OGxXp5S_FQ9nRy_41o7VLvHvkFejm-X-2om3l2RNfe_qthiUR8yI_9Wm5SbSrw/exec';
+
+    // Fetch live services from Sheet
+    const serviceSelect = document.getElementById('book-service');
+    if (serviceSelect) {
+        fetch(SHEET_URL + '?action=data&t=' + Date.now())
+            .then(r => r.json())
+            .then(data => {
+                const services = data.services || [];
+                if (services.length === 0) {
+                    serviceSelect.innerHTML = '<option value="">Select a service...</option>' +
+                        '<option>Aircon Cleaning</option><option>Aircon Installation</option>' +
+                        '<option>Repair & Troubleshooting</option><option>Preventive Maintenance</option>';
+                    return;
+                }
+
+                // Group by category, get min price per category
+                const cats = {};
+                services.forEach(s => {
+                    const cat = s.Category || s.SubCategory || 'Other';
+                    const price = Number(s.Price) || 0;
+                    if (!cats[cat]) cats[cat] = { min: price, max: price };
+                    if (price > 0 && price < cats[cat].min) cats[cat].min = price;
+                    if (price > cats[cat].max) cats[cat].max = price;
+                });
+
+                serviceSelect.innerHTML = '<option value="">Select a service...</option>';
+                Object.keys(cats).sort().forEach(cat => {
+                    const { min, max } = cats[cat];
+                    const priceText = min === max
+                        ? '₱' + min.toLocaleString()
+                        : 'from ₱' + min.toLocaleString();
+                    serviceSelect.innerHTML += '<option value="' + cat + '">' + cat + ' — ' + priceText + '</option>';
+                });
+            })
+            .catch(() => {
+                serviceSelect.innerHTML = '<option value="">Select a service...</option>' +
+                    '<option>Aircon Cleaning</option><option>Aircon Installation</option>' +
+                    '<option>Repair & Troubleshooting</option><option>Preventive Maintenance</option>';
+            });
+    }
 
     // Prevent past dates
     const dateInput = document.getElementById('book-date');
