@@ -1,5 +1,7 @@
 // R&C Airmakers v3.0 - Modern Animations & Features
 
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw62fw7OGxXp5S_FQ9nRy_41o7VLvHvkFejm-X-2om3l2RNfe_qthiUR8yI_9Wm5SbSrw/exec';
+
 // ===== Navbar Scroll Effect =====
 const header = document.querySelector('header');
 
@@ -188,7 +190,6 @@ document.addEventListener('DOMContentLoaded', animateCounters);
     const est = document.getElementById('estimator');
     if (!est) return;
 
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw62fw7OGxXp5S_FQ9nRy_41o7VLvHvkFejm-X-2om3l2RNfe_qthiUR8yI_9Wm5SbSrw/exec';
     let liveCatalog = null;
 
     // Fallback catalog: [brand, model, type, hp, tech, price]
