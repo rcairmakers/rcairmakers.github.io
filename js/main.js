@@ -668,8 +668,7 @@ document.addEventListener('DOMContentLoaded', animateCounters);
 // ===== Flashing Promo Banner =====
 (function() {
     const banner = document.getElementById('promoBanner');
-    const promoText = document.getElementById('promoText');
-    if (!banner || !promoText) return;
+    if (!banner) return;
 
     fetch(SHEET_URL + '?action=data&t=' + Date.now())
         .then(r => r.json())
@@ -677,23 +676,31 @@ document.addEventListener('DOMContentLoaded', animateCounters);
             const activePromos = (data.promos || []).filter(p => String(p.Active).toLowerCase() === 'yes');
             if (activePromos.length === 0) return;
 
-            // Pick first active promo
             const promo = activePromos[0];
-            let promoLabel = '';
-            if (promo.PromoPrice && Number(promo.PromoPrice) > 0 && promo.RegularPrice && Number(promo.RegularPrice) > 0) {
-                const savings = Number(promo.RegularPrice) - Number(promo.PromoPrice);
-                promoLabel = '₱' + Number(promo.PromoPrice).toLocaleString() + ' (Save ₱' + savings.toLocaleString() + '!)';
+            const srp = Number(promo.SrpPrice) || 0;
+            const regular = Number(promo.RegularPrice) || 0;
+            const promoPrice = Number(promo.PromoPrice) || 0;
+
+            document.getElementById('promoBrandLabel').textContent = promo.Brand || '';
+            document.getElementById('promoModelLabel').textContent = promo.Model || '';
+
+            if (srp > 0) {
+                document.getElementById('promoSrpLabel').textContent = '₱' + srp.toLocaleString();
             }
-            promoText.innerHTML = '<strong>' + (promo.Brand || '') + ' ' + (promo.Model || '') + '</strong> — ' +
-                (promoLabel ? promoLabel + ' ' : '') +
-                (promo.Message || 'Special Promo Available!');
-            banner.style.display = 'block';
-            document.body.classList.add('promo-active');
+            if (srp > 0 && promoPrice > 0) {
+                const savings = srp - promoPrice;
+                document.getElementById('promoSaveLabel').textContent = 'Save ₱' + savings.toLocaleString();
+            }
+            if (promoPrice > 0) {
+                document.getElementById('promoPriceLabel').textContent = '₱' + promoPrice.toLocaleString();
+            }
+            document.getElementById('promoMsgLabel').textContent = promo.Message || '';
+
+            banner.style.display = 'flex';
         })
         .catch(() => {});
 })();
 
 function closePromo() {
     document.getElementById('promoBanner').style.display = 'none';
-    document.body.classList.remove('promo-active');
 }

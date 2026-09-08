@@ -82,11 +82,20 @@
 </header>
 
 <!-- Flashing Promo Banner -->
-<div id="promoBanner" class="promo-banner" style="display:none;">
-    <div class="promo-banner-inner">
-        <span class="promo-flash-icon">&#128293;</span>
-        <span id="promoText"></span>
-        <button class="promo-close" onclick="closePromo()" aria-label="Close promo">&times;</button>
+<div id="promoBanner" class="promo-popup-overlay" style="display:none;">
+    <div class="promo-popup">
+        <button class="promo-popup-close" onclick="closePromo()" aria-label="Close promo">&times;</button>
+        <div class="promo-popup-badge">HOT DEAL</div>
+        <div class="promo-popup-brand" id="promoBrandLabel"></div>
+        <div class="promo-popup-model" id="promoModelLabel"></div>
+        <div class="promo-popup-pricing">
+            <span class="promo-popup-srp" id="promoSrpLabel"></span>
+            <span class="promo-popup-save" id="promoSaveLabel"></span>
+        </div>
+        <div class="promo-popup-price" id="promoPriceLabel"></div>
+        <div class="promo-popup-message" id="promoMsgLabel"></div>
+        <a href="https://m.me/RCairmakersbulacan" class="promo-popup-cta" target="_blank" rel="noopener noreferrer">Avail Now</a>
+        <div class="promo-popup-timer" id="promoTimerLabel">Limited time offer!</div>
     </div>
 </div>
 

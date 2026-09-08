@@ -639,77 +639,181 @@ nav {
 }
 
 
-/* --- 12. Flashing Promo Banner --- */
-.promo-banner {
+/* --- 12. Flashing Promo Popup Modal --- */
+.promo-popup-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     z-index: 9999;
-    background: linear-gradient(135deg, #ff4444, #ff8800, #ff4444);
-    background-size: 200% 200%;
-    animation: promoGradient 3s ease infinite, promoFlash 1.5s ease-in-out infinite;
-    padding: 14px 20px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #fff;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    box-shadow: 0 4px 20px rgba(255, 68, 68, 0.5);
-}
-
-.promo-banner-inner {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 20px;
+    animation: promoOverlayIn 0.3s ease;
 }
 
-.promo-flash-icon {
-    font-size: 1.4rem;
-    animation: promoIconPulse 0.8s ease-in-out infinite alternate;
+@keyframes promoOverlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.promo-close {
+.promo-popup {
+    position: relative;
+    background: linear-gradient(145deg, #0f1f3a, #1a2d50, #0f1f3a);
+    border: 2px solid rgba(255, 136, 0, 0.4);
+    border-radius: 20px;
+    padding: 40px 32px 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    animation: promoPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(255, 68, 0, 0.3), 0 0 100px rgba(255, 136, 0, 0.1);
+}
+
+@keyframes promoPopIn {
+    from { opacity: 0; transform: scale(0.8) translateY(30px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.promo-popup::before {
+    content: '';
     position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 136, 0, 0.1), transparent, rgba(255, 68, 0, 0.1), transparent);
+    animation: promoRotate 4s linear infinite;
+    z-index: 0;
+}
+
+@keyframes promoRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.promo-popup > * {
+    position: relative;
+    z-index: 1;
+}
+
+.promo-popup-close {
+    position: absolute;
+    top: 12px;
     right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    color: #fff;
-    font-size: 1.4rem;
-    width: 30px;
-    height: 30px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.6rem;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: 0.2s;
+    z-index: 2;
 }
-.promo-close:hover { background: rgba(255,255,255,0.4); }
+.promo-popup-close:hover { background: rgba(255, 68, 68, 0.3); color: #fff; }
 
-@keyframes promoGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes promoFlash {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.75; }
-}
-
-@keyframes promoIconPulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.3); }
+.promo-popup-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff4444, #ff8800);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    padding: 6px 20px;
+    border-radius: 30px;
+    margin-bottom: 16px;
+    animation: promoBadgePulse 1.5s ease-in-out infinite;
 }
 
-body.promo-active {
-    padding-top: 56px;
+@keyframes promoBadgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 0, 0.5); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 68, 0, 0); }
+}
+
+.promo-popup-brand {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.promo-popup-model {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.promo-popup-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+
+.promo-popup-srp {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: line-through;
+}
+
+.promo-popup-save {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.promo-popup-price {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff8800, #ff4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+}
+
+.promo-popup-message {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.promo-popup-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff8800, #ff4444);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 14px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: 0.3s;
+    box-shadow: 0 4px 20px rgba(255, 68, 0, 0.4);
+}
+.promo-popup-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(255, 68, 0, 0.6);
+}
+
+.promo-popup-timer {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 16px;
+    font-style: italic;
 }
 
 /* --- 13. Promos Section --- */
