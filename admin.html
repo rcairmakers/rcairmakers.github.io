@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R&C Airmakers — Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a1628;
+            --bg2: #0f1f3a;
+            --card: rgba(15, 31, 58, 0.8);
+            --accent: #28a9ff;
+            --green: #22c55e;
+            --red: #ef4444;
+            --orange: #f59e0b;
+            --text: #fff;
+            --text2: #94a3b8;
+            --border: rgba(255,255,255,0.08);
+            --radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        /* Login Gate */
+        .login-gate {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px;
+        }
+        .login-box {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 40px; width: 100%; max-width: 400px;
+            text-align: center;
+        }
+        .login-box h1 { font-size: 1.5rem; margin-bottom: 8px; }
+        .login-box p { color: var(--text2); font-size: 0.9rem; margin-bottom: 24px; }
+        .login-box input {
+            width: 100%; padding: 14px 16px; background: var(--bg);
+            border: 1px solid var(--border); border-radius: 8px;
+            color: #fff; font-size: 1rem; margin-bottom: 16px; outline: none;
+        }
+        .login-box input:focus { border-color: var(--accent); }
+        .login-box button {
+            width: 100%; padding: 14px; background: var(--accent); color: #fff;
+            border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: 0.2s;
+        }
+        .login-box button:hover { opacity: 0.9; }
+        .login-error { color: var(--red); font-size: 0.85rem; margin-top: 8px; display: none; }
+
+        /* Dashboard */
+        .dashboard { display: none; }
+        .dash-header {
+            background: var(--bg2); border-bottom: 1px solid var(--border);
+            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .dash-header h2 { font-size: 1.2rem; }
+        .dash-header button {
+            background: transparent; border: 1px solid var(--border); color: var(--text2);
+            padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+        }
+        .dash-header button:hover { border-color: var(--red); color: var(--red); }
+
+        .tabs {
+            display: flex; gap: 0; background: var(--bg2); border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+        .tab {
+            padding: 14px 24px; cursor: pointer; color: var(--text2); font-weight: 600;
+            font-size: 0.9rem; border-bottom: 2px solid transparent; transition: 0.2s;
+        }
+        .tab:hover { color: var(--text); }
+        .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .tab-content { display: none; padding: 24px; }
+        .tab-content.active { display: block; }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+        }
+        .search-box {
+            flex: 1; min-width: 200px; padding: 10px 14px; background: var(--bg2);
+            border: 1px solid var(--border); border-radius: 8px; color: #fff;
+            font-size: 0.9rem; outline: none;
+        }
+        .search-box:focus { border-color: var(--accent); }
+        .btn-add {
+            background: var(--green); color: #fff; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+        }
+        .btn-add:hover { opacity: 0.9; }
+
+        /* Table */
+        .table-wrap {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th {
+            background: var(--bg2); padding: 12px 14px; text-align: left;
+            font-weight: 600; color: var(--text2); border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        td {
+            padding: 10px 14px; border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        tr:hover td { background: rgba(40, 169, 255, 0.05); }
+        .actions { display: flex; gap: 6px; }
+        .btn-sm {
+            padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer;
+            font-size: 0.8rem; font-weight: 600; transition: 0.2s;
+        }
+        .btn-edit { background: rgba(40, 169, 255, 0.15); color: var(--accent); }
+        .btn-edit:hover { background: rgba(40, 169, 255, 0.3); }
+        .btn-del { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+        .btn-del:hover { background: rgba(239, 68, 68, 0.3); }
+        .price { color: var(--green); font-weight: 600; }
+        .srp { color: var(--text2); text-decoration: line-through; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 28px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+        }
+        .modal h3 { margin-bottom: 20px; font-size: 1.1rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 0.8rem; color: var(--text2); margin-bottom: 6px; font-weight: 600; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 10px 12px; background: var(--bg);
+            border: 1px solid var(--border); border-radius: 8px; color: #fff;
+            font-size: 0.9rem; outline: none;
+        }
+        .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+        .form-group select option { background: var(--bg); }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        .btn-cancel {
+            background: transparent; border: 1px solid var(--border); color: var(--text2);
+            padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;
+        }
+        .btn-save {
+            background: var(--accent); color: #fff; border: none; padding: 10px 24px;
+            border-radius: 8px; cursor: pointer; font-weight: 600;
+        }
+
+        .toast {
+            position: fixed; bottom: 24px; right: 24px; background: var(--green);
+            color: #fff; padding: 12px 20px; border-radius: 8px; font-weight: 600;
+            font-size: 0.9rem; z-index: 9999; display: none;
+        }
+        .toast.error { background: var(--red); }
+        .toast.show { display: block; animation: fadeInUp 0.3s ease; }
+        .count { color: var(--text2); font-size: 0.85rem; margin-left: auto; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .toolbar { flex-direction: column; }
+            .search-box { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Gate -->
+<div class="login-gate" id="loginGate">
+    <div class="login-box">
+        <h1>R&C Airmakers</h1>
+        <p>Admin Dashboard</p>
+        <input type="password" id="passwordInput" placeholder="Enter admin password" autofocus>
+        <button onclick="attemptLogin()">Login</button>
+        <div class="login-error" id="loginError">Invalid password</div>
+    </div>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard" id="dashboard">
+    <div class="dash-header">
+        <h2>R&C Airmakers — Admin</h2>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="products">Products</div>
+        <div class="tab" data-tab="services">Services</div>
+        <div class="tab" data-tab="promos">Promos</div>
+    </div>
+
+    <!-- Products Tab -->
+    <div class="tab-content active" id="tab-products">
+        <div class="toolbar">
+            <input type="text" class="search-box" id="searchProducts" placeholder="Search products...">
+            <span class="count" id="productCount">0 items</span>
+            <button class="btn-add" onclick="openProductModal()">+ Add Product</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Brand</th><th>Model</th><th>Type</th>
+                        <th>HP</th><th>Tech</th><th>SRP</th><th>Price</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Services Tab -->
+    <div class="tab-content" id="tab-services">
+        <div class="toolbar">
+            <input type="text" class="search-box" id="searchServices" placeholder="Search services...">
+            <span class="count" id="serviceCount">0 items</span>
+            <button class="btn-add" onclick="openServiceModal()">+ Add Service</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Category</th><th>Sub</th><th>Description</th>
+                        <th>HP</th><th>Price</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="servicesBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Promos Tab -->
+    <div class="tab-content" id="tab-promos">
+        <div class="toolbar">
+            <input type="text" class="search-box" id="searchPromos" placeholder="Search promos...">
+            <span class="count" id="promoCount">0 items</span>
+            <button class="btn-add" onclick="openPromoModal()">+ Add Promo</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Brand</th><th>Model</th><th>SRP</th><th>Regular Price</th><th>Promo Price</th><th>Message</th><th>Active</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="promosBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="productModal">
+    <div class="modal">
+        <h3 id="productModalTitle">Add Product</h3>
+        <input type="hidden" id="prodRowIndex">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Product ID</label>
+                <input type="text" id="prodId" placeholder="AC200">
+            </div>
+            <div class="form-group">
+                <label>Brand</label>
+                <input type="text" id="prodBrand" placeholder="Daikin">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Model</label>
+                <input type="text" id="prodModel" placeholder="D-Smart">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select id="prodType">
+                    <option>Wall Mount Split Type ACU</option>
+                    <option>Window Type ACU</option>
+                    <option>Floor Standing ACU</option>
+                    <option>CEILING CASSETTE</option>
+                    <option>CEILING - FLOOR</option>
+                    <option>DUCTED TYPE</option>
+                    <option>Multi split</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>HP</label>
+                <input type="number" step="0.1" id="prodHp" placeholder="1.5">
+            </div>
+            <div class="form-group">
+                <label>Technology</label>
+                <select id="prodTech">
+                    <option>Inverter</option>
+                    <option>Full DC Inverter</option>
+                    <option>Non Inverter</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>SRP Price</label>
+                <input type="number" id="prodSrp" placeholder="35000">
+            </div>
+            <div class="form-group">
+                <label>Selling Price</label>
+                <input type="number" id="prodPrice" placeholder="30000">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal('productModal')">Cancel</button>
+            <button class="btn-save" onclick="saveProduct()">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Service Modal -->
+<div class="modal-overlay" id="serviceModal">
+    <div class="modal">
+        <h3 id="serviceModalTitle">Add Service</h3>
+        <input type="hidden" id="svcRowIndex">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Service ID</label>
+                <input type="text" id="svcId" placeholder="CLN013">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="svcCategory">
+                    <option>Cleaning</option>
+                    <option>Regular Cleaning</option>
+                    <option>Chemical Cleaning</option>
+                    <option>Full Down Cleaning</option>
+                    <option>Preventive Maintenance</option>
+                    <option>Installation</option>
+                    <option>Repair</option>
+                    <option>Dismantling</option>
+                    <option>Reprocess</option>
+                    <option>Misc.</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Sub Category</label>
+                <input type="text" id="svcSub" placeholder="Split Type">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="svcDesc" placeholder="Chemical Cleaning">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>HP</label>
+                <input type="text" id="svcHp" placeholder="1.5 or blank">
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" id="svcPrice" placeholder="2500">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal('serviceModal')">Cancel</button>
+            <button class="btn-save" onclick="saveService()">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Promo Modal -->
+<div class="modal-overlay" id="promoModal">
+    <div class="modal">
+        <h3 id="promoModalTitle">Add Promo</h3>
+        <input type="hidden" id="promoRowIndex">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Brand</label>
+                <select id="promoBrand" onchange="loadBrandProducts()">
+                    <option value="">— Select Brand —</option>
+                    <option>Daikin</option>
+                    <option>Carrier</option>
+                    <option>Panasonic</option>
+                    <option>Samsung</option>
+                    <option>LG</option>
+                    <option>Midea</option>
+                    <option>Fujitsu General</option>
+                    <option>Toshiba</option>
+                    <option>Hyundai</option>
+                    <option>Chigo</option>
+                    <option>York</option>
+                    <option>Kolin</option>
+                    <option>Konami</option>
+                    <option>Fuego</option>
+                    <option>Sanyo</option>
+                    <option>Sharp</option>
+                    <option>AUX</option>
+                    <option>Others</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Model (from Products)</label>
+                <select id="promoModelSelect" onchange="loadProductToPromo()">
+                    <option value="">— Select brand first —</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>SRP Price</label>
+                <input type="number" id="promoSrp" readonly style="opacity:0.6">
+            </div>
+            <div class="form-group">
+                <label>Regular Price</label>
+                <input type="number" id="promoRegular" readonly style="opacity:0.6">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Promo Price (discounted)</label>
+            <input type="number" id="promoPrice" placeholder="Enter promo price">
+        </div>
+        <div class="form-group">
+            <label>Promo Message</label>
+            <input type="text" id="promoMessage" placeholder="Free installation + 1yr warranty extension">
+        </div>
+        <div class="form-group">
+            <label>Active?</label>
+            <select id="promoActive">
+                <option value="Yes">Yes — Show on website</option>
+                <option value="No">No — Hidden</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal('promoModal')">Cancel</button>
+            <button class="btn-save" onclick="savePromo()">Save</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PASS = 'rcairmakers2026';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw62fw7OGxXp5S_FQ9nRy_41o7VLvHvkFejm-X-2om3l2RNfe_qthiUR8yI_9Wm5SbSrw/exec';
+const SECRET = 'rcairmakers2026';
+
+let allProducts = [];
+let allServices = [];
+let allPromos = [];
+
+function attemptLogin() {
+    const pass = document.getElementById('passwordInput').value;
+    if (pass === PASS) {
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadData();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+    }
+}
+
+document.getElementById('passwordInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') attemptLogin();
+});
+
+function logout() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginGate').style.display = 'flex';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('loginError').style.display = 'none';
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+});
+
+// Load data
+async function loadData() {
+    try {
+        const res = await fetch(SHEET_URL + '?action=data&t=' + Date.now());
+        const data = await res.json();
+        allProducts = data.products || [];
+        allServices = data.services || [];
+        allPromos = data.promos || [];
+        renderProducts();
+        renderServices();
+        renderPromos();
+    } catch (err) {
+        showToast('Failed to load data', true);
+    }
+}
+
+// Products
+function renderProducts(filter = '') {
+    const tbody = document.getElementById('productsBody');
+    const f = filter.toLowerCase();
+    const filtered = allProducts.filter(p =>
+        (p.ProductID || '').toLowerCase().includes(f) ||
+        (p.Brand || '').toLowerCase().includes(f) ||
+        (p.Model || '').toLowerCase().includes(f) ||
+        (p.Type || '').toLowerCase().includes(f)
+    );
+    document.getElementById('productCount').textContent = filtered.length + ' items';
+    tbody.innerHTML = filtered.map(p => `
+        <tr>
+            <td>${p.ProductID || ''}</td>
+            <td>${p.Brand || ''}</td>
+            <td>${p.Model || ''}</td>
+            <td>${p.Type || ''}</td>
+            <td>${p.HP || ''}</td>
+            <td>${p.Technology || ''}</td>
+            <td class="srp">₱${Number(p.SrpPrice || 0).toLocaleString()}</td>
+            <td class="price">₱${Number(p.DiscountedPrice || 0).toLocaleString()}</td>
+            <td class="actions">
+                <button class="btn-sm btn-edit" onclick='editProduct(${JSON.stringify(p)})'>Edit</button>
+                <button class="btn-sm btn-del" onclick="deleteProduct(${p._row})">Del</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+document.getElementById('searchProducts').addEventListener('input', e => renderProducts(e.target.value));
+
+function openProductModal(product) {
+    document.getElementById('productModalTitle').textContent = product ? 'Edit Product' : 'Add Product';
+    document.getElementById('prodRowIndex').value = product ? product._row : '';
+    document.getElementById('prodId').value = product ? product.ProductID : '';
+    document.getElementById('prodBrand').value = product ? product.Brand : '';
+    document.getElementById('prodModel').value = product ? product.Model : '';
+    document.getElementById('prodType').value = product ? product.Type : 'Wall Mount Split Type ACU';
+    document.getElementById('prodHp').value = product ? product.HP : '';
+    document.getElementById('prodTech').value = product ? product.Technology : 'Inverter';
+    document.getElementById('prodSrp').value = product ? product.SrpPrice : '';
+    document.getElementById('prodPrice').value = product ? product.DiscountedPrice : '';
+    document.getElementById('productModal').classList.add('open');
+}
+
+function editProduct(p) { openProductModal(p); }
+
+async function saveProduct() {
+    const row = [
+        document.getElementById('prodId').value,
+        document.getElementById('prodBrand').value,
+        document.getElementById('prodModel').value,
+        document.getElementById('prodType').value,
+        document.getElementById('prodHp').value,
+        document.getElementById('prodTech').value,
+        document.getElementById('prodSrp').value,
+        document.getElementById('prodPrice').value
+    ];
+    const rowIndex = document.getElementById('prodRowIndex').value;
+    const action = rowIndex ? 'update' : 'add';
+    const payload = { secret: SECRET, sheet: 'Products', action: action, row: row };
+    if (rowIndex) payload.rowIndex = parseInt(rowIndex);
+
+    try {
+        await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        closeModal('productModal');
+        showToast('Product saved!');
+        setTimeout(loadData, 1000);
+    } catch (err) {
+        showToast('Save failed', true);
+    }
+}
+
+async function deleteProduct(row) {
+    if (!confirm('Delete this product?')) return;
+    try {
+        await fetch(SHEET_URL, {
+            method: 'POST', mode: 'no-cors',
+            body: JSON.stringify({ secret: SECRET, sheet: 'Products', action: 'delete', rowIndex: row })
+        });
+        showToast('Product deleted!');
+        setTimeout(loadData, 1000);
+    } catch (err) {
+        showToast('Delete failed', true);
+    }
+}
+
+// Services
+function renderServices(filter = '') {
+    const tbody = document.getElementById('servicesBody');
+    const f = filter.toLowerCase();
+    const filtered = allServices.filter(s =>
+        (s.ServiceID || '').toLowerCase().includes(f) ||
+        (s.Category || '').toLowerCase().includes(f) ||
+        (s.SubCategory || '').toLowerCase().includes(f) ||
+        (s.Description || '').toLowerCase().includes(f)
+    );
+    document.getElementById('serviceCount').textContent = filtered.length + ' items';
+    tbody.innerHTML = filtered.map(s => `
+        <tr>
+            <td>${s.ServiceID || ''}</td>
+            <td>${s.Category || ''}</td>
+            <td>${s.SubCategory || ''}</td>
+            <td>${s.Description || ''}</td>
+            <td>${s.HP || ''}</td>
+            <td class="price">₱${Number(s.Price || 0).toLocaleString()}</td>
+            <td class="actions">
+                <button class="btn-sm btn-edit" onclick='editService(${JSON.stringify(s)})'>Edit</button>
+                <button class="btn-sm btn-del" onclick="deleteService(${s._row})">Del</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+document.getElementById('searchServices').addEventListener('input', e => renderServices(e.target.value));
+
+function openServiceModal(svc) {
+    document.getElementById('serviceModalTitle').textContent = svc ? 'Edit Service' : 'Add Service';
+    document.getElementById('svcRowIndex').value = svc ? svc._row : '';
+    document.getElementById('svcId').value = svc ? svc.ServiceID : '';
+    document.getElementById('svcCategory').value = svc ? svc.Category : 'Cleaning';
+    document.getElementById('svcSub').value = svc ? svc.SubCategory : '';
+    document.getElementById('svcDesc').value = svc ? svc.Description : '';
+    document.getElementById('svcHp').value = svc ? svc.HP : '';
+    document.getElementById('svcPrice').value = svc ? svc.Price : '';
+    document.getElementById('serviceModal').classList.add('open');
+}
+
+function editService(s) { openServiceModal(s); }
+
+async function saveService() {
+    const row = [
+        document.getElementById('svcId').value,
+        document.getElementById('svcCategory').value,
+        document.getElementById('svcSub').value,
+        document.getElementById('svcDesc').value,
+        document.getElementById('svcHp').value,
+        document.getElementById('svcPrice').value
+    ];
+    const rowIndex = document.getElementById('svcRowIndex').value;
+    const action = rowIndex ? 'update' : 'add';
+    const payload = { secret: SECRET, sheet: 'Services', action: action, row: row };
+    if (rowIndex) payload.rowIndex = parseInt(rowIndex);
+
+    try {
+        await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        closeModal('serviceModal');
+        showToast('Service saved!');
+        setTimeout(loadData, 1000);
+    } catch (err) {
+        showToast('Save failed', true);
+    }
+}
+
+async function deleteService(row) {
+    if (!confirm('Delete this service?')) return;
+    try {
+        await fetch(SHEET_URL, {
+            method: 'POST', mode: 'no-cors',
+            body: JSON.stringify({ secret: SECRET, sheet: 'Services', action: 'delete', rowIndex: row })
+        });
+        showToast('Service deleted!');
+        setTimeout(loadData, 1000);
+    } catch (err) {
+        showToast('Delete failed', true);
+    }
+}
+
+// Promos
+function renderPromos(filter = '') {
+    const tbody = document.getElementById('promosBody');
+    const f = filter.toLowerCase();
+    const filtered = allPromos.filter(p =>
+        (p.Brand || '').toLowerCase().includes(f) ||
+        (p.Message || '').toLowerCase().includes(f)
+    );
+    document.getElementById('promoCount').textContent = filtered.length + ' items';
+    tbody.innerHTML = filtered.map(p => `
+        <tr>
+            <td>${p.Brand || ''}</td>
+            <td>${p.Model || ''}</td>
+            <td class="srp">₱${Number(p.SrpPrice || 0).toLocaleString()}</td>
+            <td class="srp">₱${Number(p.RegularPrice || 0).toLocaleString()}</td>
+            <td class="price">₱${Number(p.PromoPrice || 0).toLocaleString()}</td>
+            <td>${p.Message || ''}</td>
+            <td style="color: ${String(p.Active).toLowerCase() === 'yes' ? 'var(--green)' : 'var(--text2)'}">
+                ${String(p.Active).toLowerCase() === 'yes' ? 'Active' : 'Hidden'}
+            </td>
+            <td class="actions">
+                <button class="btn-sm btn-edit" onclick='editPromo(${JSON.stringify(p)})'>Edit</button>
+                <button class="btn-sm btn-del" onclick="deletePromo(${p._row})">Del</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+document.getElementById('searchPromos').addEventListener('input', e => renderPromos(e.target.value));
+
+function openPromoModal(promo) {
+    document.getElementById('promoModalTitle').textContent = promo ? 'Edit Promo' : 'Add Promo';
+    document.getElementById('promoRowIndex').value = promo ? promo._row : '';
+    document.getElementById('promoModelSelect').innerHTML = '<option value="">— Select brand first —</option>';
+    document.getElementById('promoSrp').value = '';
+    document.getElementById('promoRegular').value = '';
+    document.getElementById('promoPrice').value = '';
+    document.getElementById('promoMessage').value = '';
+    document.getElementById('promoActive').value = 'Yes';
+
+    if (promo) {
+        document.getElementById('promoBrand').value = promo.Brand || '';
+        loadBrandProducts(promo.Model);
+        document.getElementById('promoPrice').value = promo.PromoPrice || '';
+        document.getElementById('promoMessage').value = promo.Message || '';
+        document.getElementById('promoActive').value = promo.Active || 'Yes';
+    } else {
+        document.getElementById('promoBrand').value = '';
+    }
+    document.getElementById('promoModal').classList.add('open');
+}
+
+function editPromo(p) { openPromoModal(p); }
+
+function loadBrandProducts(selectModel) {
+    const brand = document.getElementById('promoBrand').value;
+    const modelSelect = document.getElementById('promoModelSelect');
+    modelSelect.innerHTML = '<option value="">— Loading... —</option>';
+
+    if (!brand) {
+        modelSelect.innerHTML = '<option value="">— Select brand first —</option>';
+        return;
+    }
+
+    const brandProducts = allProducts.filter(p => (p.Brand || '').toLowerCase() === brand.toLowerCase());
+    if (brandProducts.length === 0) {
+        modelSelect.innerHTML = '<option value="">— No products for this brand —</option>';
+        return;
+    }
+
+    modelSelect.innerHTML = '<option value="">— Pick a model —</option>' +
+        brandProducts.map(p => '<option value="' + (p.Model || '') + '">' + (p.Model || '') + ' (' + (p.HP || '') + 'HP)</option>').join('');
+
+    if (selectModel) {
+        modelSelect.value = selectModel;
+        loadProductToPromo();
+    }
+}
+
+function loadProductToPromo() {
+    const brand = document.getElementById('promoBrand').value;
+    const model = document.getElementById('promoModelSelect').value;
+    const product = allProducts.find(p =>
+        (p.Brand || '').toLowerCase() === brand.toLowerCase() && (p.Model || '') === model
+    );
+
+    if (product) {
+        document.getElementById('promoSrp').value = product.SrpPrice || '';
+        document.getElementById('promoRegular').value = product.DiscountedPrice || '';
+    } else {
+        document.getElementById('promoSrp').value = '';
+        document.getElementById('promoRegular').value = '';
+    }
+}
+
+async function savePromo() {
+    const row = [
+        document.getElementById('promoBrand').value,
+        document.getElementById('promoModelSelect').value,
+        document.getElementById('promoSrp').value,
+        document.getElementById('promoRegular').value,
+        document.getElementById('promoPrice').value,
+        document.getElementById('promoMessage').value,
+        document.getElementById('promoActive').value
+    ];
+    const rowIndex = document.getElementById('promoRowIndex').value;
+    const action = rowIndex ? 'update' : 'add';
+    const payload = { secret: SECRET, sheet: 'Promos', action: action, row: row };
+    if (rowIndex) payload.rowIndex = parseInt(rowIndex);
+
+    try {
+        await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        closeModal('promoModal');
+        showToast('Promo saved!');
+        setTimeout(loadData, 1000);
+    } catch (err) {
+        showToast('Save failed', true);
+    }
+}
+
+async function deletePromo(row) {
+    if (!confirm('Delete this promo?')) return;
+    try {
+        await fetch(SHEET_URL, {
+            method: 'POST', mode: 'no-cors',
+            body: JSON.stringify({ secret: SECRET, sheet: 'Promos', action: 'delete', rowIndex: row })
+        });
+        showToast('Promo deleted!');
+        setTimeout(loadData, 1000);
+    } catch (err) {
+        showToast('Delete failed', true);
+    }
+}
+
+// Utils
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function showToast(msg, isError) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    setTimeout(() => t.className = 'toast', 3000);
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+});
+</script>
+</body>
+</html>

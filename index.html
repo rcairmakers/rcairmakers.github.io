@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R&C Airmakers Engineering Services | Aircon Installation & Repair in Bulacan</title>
+    <meta name="theme-color" content="#071a35">
 
     <meta name="description" content="R&C Airmakers Engineering Services provides professional aircon installation, cleaning, preventive maintenance, repair, and commercial HVAC solutions in Bulacan and nearby areas. 13+ years of industry experience.">
     <meta name="keywords" content="aircon repair Bulacan, aircon installation, aircon cleaning, HVAC Bulacan, freon charging, commercial aircon">
@@ -27,10 +28,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Local business structured data (helps Google Maps / local search) -->
+    <!-- Local business structured data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -53,6 +54,7 @@
 </head>
 
 <body>
+<script>document.documentElement.classList.add('js');</script>
 
 <header>
     <div class="logo">
@@ -67,9 +69,10 @@
 
     <nav class="nav-menu">
         <a href="#about">About</a>
-        <a href="#promos">Promos</a>
-        <a href="#brands">Brands</a>
         <a href="#services">Services</a>
+        <a href="#calculator">Quote</a>
+        <a href="#estimator">Estimator</a>
+        <a href="#book">Book</a>
         <a href="#gallery">Gallery</a>
         <a href="#team">Team</a>
         <a href="#contact">Contact</a>
@@ -78,58 +81,70 @@
     <a href="tel:09486060845" class="call-btn">📞 Call Now</a>
 </header>
 
+<!-- Flashing Promo Banner -->
+<div id="promoBanner" class="promo-banner" style="display:none;">
+    <div class="promo-banner-inner">
+        <span class="promo-flash-icon">&#128293;</span>
+        <span id="promoText"></span>
+        <button class="promo-close" onclick="closePromo()" aria-label="Close promo">&times;</button>
+    </div>
+</div>
+
 <section class="hero">
     <div class="hero-content">
+        <span class="hero-badge">Trusted HVAC Experts in Bulacan</span>
         <h1>Professional Air Conditioning Solutions</h1>
         <p>Hindi Lang Aircon ang Binibenta Namin — Komportable at Preskong Buhay Din.</p>
 
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf5XLKCXxkgos3azj3k-EFGSAlfWywWoO2iDF9LE8lcuIQCaA/viewform"
-           class="btn" target="_blank" rel="noopener noreferrer">
-            Request a Quote
-        </a>
+        <div class="hero-buttons">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf5XLKCXxkgos3azj3k-EFGSAlfWywWoO2iDF9LE8lcuIQCaA/viewform"
+               class="btn" target="_blank" rel="noopener noreferrer">
+                Request a Quote
+            </a>
 
-        <a href="https://facebook.com/RCairmakersbulacan"
-           class="btn" target="_blank" rel="noopener noreferrer">
-            Message Us
-        </a>
+            <a href="https://facebook.com/RCairmakersbulacan"
+               class="btn" target="_blank" rel="noopener noreferrer">
+                Message Us
+            </a>
+        </div>
     </div>
 </section>
 
 <section id="promos" class="promos-section">
-    <h2 class="section-title">Promos & Deals</h2>
+    <h2 class="section-title reveal">Promos & Deals</h2>
     <div id="promos-container" class="promos-grid">
         <p class="promos-loading">Loading current promos...</p>
     </div>
 </section>
 
 <section id="about" class="about-section">
-    <div class="section-header">
+    <div class="section-header reveal">
         <span class="section-badge">ABOUT R&C AIRMAKERS</span>
         <h2>Building Comfort Through Quality HVAC Solutions</h2>
         <p>Trusted by homeowners and businesses across Bulacan, we provide dependable air conditioning solutions backed by years of industry experience.</p>
     </div>
 
     <div class="about-grid">
-        <div class="about-image">
+        <div class="about-image reveal">
             <img src="images/about-team.jpg" alt="R&C Airmakers Team" loading="lazy">
         </div>
 
         <div class="about-content">
             <div class="about-highlights">
-                <div class="highlight"><h3>13+</h3><span>Years Industry Experience</span></div>
-                <div class="highlight"><h3>2021</h3><span>Company Established</span></div>
-                <div class="highlight"><h3>Bulacan</h3><span>Main Service Area</span></div>
-                <div class="highlight"><h3>Residential</h3><span>& Commercial HVAC</span></div>
+                <div class="highlight reveal reveal-delay-1"><h3 data-target="13" data-suffix="+">0+</h3><span>Years Industry Experience</span></div>
+                <div class="highlight reveal reveal-delay-2"><h3 data-target="2021" data-suffix="">2021</h3><span>Company Established</span></div>
+                <div class="highlight reveal reveal-delay-3"><h3>Bulacan</h3><span>Main Service Area</span></div>
+                <div class="highlight reveal reveal-delay-4"><h3>Residential</h3><span>& Commercial HVAC</span></div>
             </div>
 
-            <h3 class="story-title">Our Story</h3>
+            <h3 class="story-title reveal">Our Story</h3>
 
-            <p class="story">
-                Founded in 2021 by Ronnie Rivera and Carla Rivera, R&C Airmakers Engineering Services was established with one mission—to provide reliable, honest, and professional HVAC solutions.
+            <p class="story reveal">
+                Founded in 2021 by Ronnie Rivera and Carla Rivera, R&C Airmakers Engineering Services was established with one mission — to provide reliable, honest, and professional HVAC solutions.
                 Built on over 13 years of industry experience, we continue to serve residential and commercial clients with quality workmanship, dependable service, and lasting customer relationships.
             </p>
 
-            <ul class="about-list">
+            <ul class="about-list reveal">
                 <li>Professional HVAC Technicians</li>
                 <li>Quality Workmanship Guaranteed</li>
                 <li>Honest & Transparent Pricing</li>
@@ -139,46 +154,355 @@
     </div>
 </section>
 
-<p style="text-align:center; max-width:900px; margin:20px auto;">
+<div class="info-banner reveal">
     R&C Airmakers Engineering Services provides professional air conditioning installation, cleaning, maintenance, troubleshooting, repair, and commercial HVAC solutions throughout Bulacan and nearby areas.
-</p>
+</div>
 
 <section id="brands">
-    <h2 class="section-title">Brands We Carry</h2>
+    <h2 class="section-title reveal">Brands We Carry</h2>
     <div class="brands-grid">
-        <span class="brand-badge">American Home</span>
-        <span class="brand-badge">AUX</span>
-        <span class="brand-badge">Carrier</span>
-        <span class="brand-badge">CHiQ</span>
-        <span class="brand-badge">Condura</span>
-        <span class="brand-badge">Daikin</span>
-        <span class="brand-badge">Fujidenzo</span>
-        <span class="brand-badge">Gree</span>
-        <span class="brand-badge">Kolin</span>
-        <span class="brand-badge">Koppel</span>
-        <span class="brand-badge">LG</span>
-        <span class="brand-badge">Midea</span>
-        <span class="brand-badge">Panasonic</span>
-        <span class="brand-badge">Samsung</span>
-        <span class="brand-badge">TCL</span>
+        <span class="brand-badge reveal reveal-delay-1">American Home</span>
+        <span class="brand-badge reveal reveal-delay-1">AUX</span>
+        <span class="brand-badge reveal reveal-delay-2">Carrier</span>
+        <span class="brand-badge reveal reveal-delay-2">CHiQ</span>
+        <span class="brand-badge reveal reveal-delay-3">Condura</span>
+        <span class="brand-badge reveal reveal-delay-3">Daikin</span>
+        <span class="brand-badge reveal reveal-delay-1">Fujidenzo</span>
+        <span class="brand-badge reveal reveal-delay-2">Gree</span>
+        <span class="brand-badge reveal reveal-delay-3">Kolin</span>
+        <span class="brand-badge reveal reveal-delay-1">Koppel</span>
+        <span class="brand-badge reveal reveal-delay-2">LG</span>
+        <span class="brand-badge reveal reveal-delay-3">Midea</span>
+        <span class="brand-badge reveal reveal-delay-1">Panasonic</span>
+        <span class="brand-badge reveal reveal-delay-2">Samsung</span>
+        <span class="brand-badge reveal reveal-delay-3">TCL</span>
+    </div>
+</section>
+
+<section id="areas" class="areas-section">
+    <div class="section-header reveal">
+        <span class="section-badge">SERVICE AREAS</span>
+        <h2>Proudly Serving Bulacan & Nearby Areas</h2>
+        <p>Based in Santa Maria, Bulacan. We bring dependable aircon service to homes and businesses across the province.</p>
+    </div>
+
+    <div class="areas-grid">
+        <div class="area-card reveal reveal-delay-1"><h3>Santa Maria</h3><p>Our home base — fastest response times.</p></div>
+        <div class="area-card reveal reveal-delay-1"><h3>Bocaue</h3><p>Residential and commercial coverage.</p></div>
+        <div class="area-card reveal reveal-delay-2"><h3>Marilao</h3><p>Full HVAC services, same-week slots.</p></div>
+        <div class="area-card reveal reveal-delay-2"><h3>Meycauayan</h3><p>Offices, warehouses, and homes served.</p></div>
+        <div class="area-card reveal reveal-delay-3"><h3>Balagtas</h3><p>Installation, cleaning, and repairs.</p></div>
+        <div class="area-card reveal reveal-delay-3"><h3>Guiguinto</h3><p>Preventive maintenance plans available.</p></div>
+        <div class="area-card reveal reveal-delay-1"><h3>Malolos</h3><p>Commercial HVAC for businesses.</p></div>
+        <div class="area-card reveal reveal-delay-2"><h3>Pandi</h3><p>Quick dispatch for residential units.</p></div>
+        <div class="area-card reveal reveal-delay-3"><h3>San Jose del Monte</h3><p>Split type specialists on call.</p></div>
+        <div class="area-card reveal reveal-delay-1"><h3>Angat</h3><p>Installation and freon services.</p></div>
+        <div class="area-card reveal reveal-delay-2"><h3>Norzagaray</h3><p>Quality workmanship guaranteed.</p></div>
+        <div class="area-card reveal reveal-delay-3"><h3>Plaridel</h3><p>Trusted by homeowners and offices.</p></div>
+        <div class="area-card area-cta reveal reveal-delay-1">
+            <p><strong>Area not listed?</strong></p>
+            <a href="https://facebook.com/RCairmakersbulacan" target="_blank" rel="noopener noreferrer">Message us — we go where you are.</a>
+        </div>
     </div>
 </section>
 
 <section id="services">
-    <h2 class="section-title">Our Services</h2>
+    <h2 class="section-title reveal">Our Services</h2>
 
     <div class="services">
-        <div class="card"><h3>Aircon Installation</h3><p>Professional residential and commercial installations.</p></div>
-        <div class="card"><h3>Aircon Cleaning</h3><p>General and chemical cleaning services.</p></div>
-        <div class="card"><h3>Preventive Maintenance</h3><p>Keep your units efficient and reliable.</p></div>
-        <div class="card"><h3>Repair & Troubleshooting</h3><p>Fast diagnosis and dependable repairs.</p></div>
-        <div class="card"><h3>Freon Charging</h3><p>Restore cooling performance.</p></div>
-        <div class="card"><h3>Commercial HVAC</h3><p>Solutions for offices and businesses.</p></div>
+        <div class="card reveal reveal-delay-1"><h3>Aircon Installation</h3><p>Professional residential and commercial installations.</p></div>
+        <div class="card reveal reveal-delay-2"><h3>Aircon Cleaning</h3><p>General and chemical cleaning services.</p></div>
+        <div class="card reveal reveal-delay-3"><h3>Preventive Maintenance</h3><p>Keep your units efficient and reliable.</p></div>
+        <div class="card reveal reveal-delay-1"><h3>Repair & Troubleshooting</h3><p>Fast diagnosis and dependable repairs.</p></div>
+        <div class="card reveal reveal-delay-2"><h3>Freon Charging</h3><p>Restore cooling performance.</p></div>
+        <div class="card reveal reveal-delay-3"><h3>Commercial HVAC</h3><p>Solutions for offices and businesses.</p></div>
+    </div>
+</section>
+
+<section id="calculator" class="calc-section">
+    <div class="section-header reveal">
+        <span class="section-badge">QUOTE CALCULATOR</span>
+        <h2>Get an Instant Price Estimate</h2>
+        <p>Answer three quick questions and get a ballpark range in seconds — no call needed.</p>
+    </div>
+
+    <div class="calc-wrap reveal">
+        <div class="calc-progress">
+            <div class="calc-step-dot active" data-dot="1">1</div>
+            <div class="calc-progress-line"></div>
+            <div class="calc-step-dot" data-dot="2">2</div>
+            <div class="calc-progress-line"></div>
+            <div class="calc-step-dot" data-dot="3">3</div>
+        </div>
+
+        <div class="calc-body">
+            <div class="calc-pane active" data-pane="1">
+                <h3 class="calc-question">What do you need?</h3>
+                <div class="calc-options" data-question="service">
+                    <button type="button" class="calc-option" data-value="Aircon Cleaning">Aircon Cleaning</button>
+                    <button type="button" class="calc-option" data-value="Aircon Installation">Aircon Installation</button>
+                    <button type="button" class="calc-option" data-value="Repair & Troubleshooting">Repair & Troubleshooting</button>
+                    <button type="button" class="calc-option" data-value="Preventive Maintenance">Preventive Maintenance</button>
+                    <button type="button" class="calc-option" data-value="Freon Charging">Freon Charging</button>
+                    <button type="button" class="calc-option" data-value="Commercial HVAC">Commercial HVAC</button>
+                </div>
+            </div>
+
+            <div class="calc-pane" data-pane="2">
+                <h3 class="calc-question">What type of unit do you have?</h3>
+                <div class="calc-options" data-question="unit">
+                    <button type="button" class="calc-option" data-value="Window Type">Window Type</button>
+                    <button type="button" class="calc-option" data-value="Split Type">Split Type</button>
+                    <button type="button" class="calc-option" data-value="Inverter">Inverter</button>
+                    <button type="button" class="calc-option" data-value="Cassette">Cassette</button>
+                    <button type="button" class="calc-option" data-value="Commercial Unit">Commercial Unit</button>
+                </div>
+
+                <h3 class="calc-question" style="margin-top:30px;">Horsepower (HP)</h3>
+                <div class="calc-options" data-question="hp">
+                    <button type="button" class="calc-option" data-value="0.5 HP">0.5 HP</button>
+                    <button type="button" class="calc-option" data-value="1.0 HP">1.0 HP</button>
+                    <button type="button" class="calc-option" data-value="1.5 HP">1.5 HP</button>
+                    <button type="button" class="calc-option" data-value="2.0 HP">2.0 HP</button>
+                    <button type="button" class="calc-option" data-value="2.5 HP & up">2.5 HP & up</button>
+                </div>
+
+                <div class="calc-actions">
+                    <button type="button" class="btn btn-ghost" data-back="1">&larr; Back</button>
+                </div>
+            </div>
+
+            <div class="calc-pane" data-pane="3">
+                <h3 class="calc-question">Your estimate</h3>
+                <div id="calc-summary" class="estimate-box">
+                    <div id="calc-range" class="estimate-range">—</div>
+                    <p id="calc-meta" class="estimate-meta"></p>
+                    <p class="estimate-note">Estimated price range only. Final quote depends on a quick on-site assessment.</p>
+                </div>
+
+                <div class="estimate-actions">
+                    <a href="#book" class="btn" id="calc-book-btn">Book This Service</a>
+                    <a href="https://facebook.com/RCairmakersbulacan" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Ask on Messenger</a>
+                </div>
+
+                <div class="calc-actions">
+                    <button type="button" class="btn btn-ghost" data-back="2">&larr; Back</button>
+                    <button type="button" class="btn btn-ghost" id="calc-restart">Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="estimator" class="estimator-section">
+    <div class="section-header reveal">
+        <span class="section-badge">UNIT ESTIMATOR</span>
+        <h2>Find the Right Aircon for Your Space</h2>
+        <p>Answer three questions and get an instant recommendation with a price range — no call needed.</p>
+    </div>
+
+    <div class="est-wrap reveal">
+        <div class="est-progress">
+            <div class="est-step-dot active" data-dot="1">1</div>
+            <div class="est-progress-line"></div>
+            <div class="est-step-dot" data-dot="2">2</div>
+            <div class="est-progress-line"></div>
+            <div class="est-step-dot" data-dot="3">3</div>
+        </div>
+
+        <div class="est-body">
+            <!-- Step 1: Room Size -->
+            <div class="est-pane active" data-pane="1">
+                <h3 class="est-question">How big is the room?</h3>
+                <div class="est-options" data-question="room">
+                    <button type="button" class="est-option" data-value="small">
+                        <span class="est-icon">10–15 sqm</span>
+                        <span class="est-desc">Small Bedroom</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="medium">
+                        <span class="est-icon">15–25 sqm</span>
+                        <span class="est-desc">Living Room</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="large">
+                        <span class="est-icon">25–40 sqm</span>
+                        <span class="est-desc">Large Room / Office</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="xlarge">
+                        <span class="est-icon">40+ sqm</span>
+                        <span class="est-desc">Commercial Space</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Unit Type -->
+            <div class="est-pane" data-pane="2">
+                <h3 class="est-question">What type of unit do you prefer?</h3>
+                <div class="est-options" data-question="unitType">
+                    <button type="button" class="est-option" data-value="window">
+                        <span class="est-icon">Window</span>
+                        <span class="est-desc">Budget-friendly</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="split">
+                        <span class="est-icon">Split</span>
+                        <span class="est-desc">Quieter & modern</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="inverter">
+                        <span class="est-icon">Inverter</span>
+                        <span class="est-desc">Energy-efficient</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="any">
+                        <span class="est-icon">Not sure</span>
+                        <span class="est-desc">Recommend for me</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Budget -->
+            <div class="est-pane" data-pane="3">
+                <h3 class="est-question">What's your budget range?</h3>
+                <div class="est-options" data-question="budget">
+                    <button type="button" class="est-option" data-value="budget">
+                        <span class="est-icon">Under ₱20k</span>
+                        <span class="est-desc">Entry-level</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="mid">
+                        <span class="est-icon">₱20k–₱40k</span>
+                        <span class="est-desc">Mid-range</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="premium">
+                        <span class="est-icon">₱40k+</span>
+                        <span class="est-desc">Premium</span>
+                    </button>
+                    <button type="button" class="est-option" data-value="any">
+                        <span class="est-icon">Any</span>
+                        <span class="est-desc">Best value</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Result -->
+            <div class="est-pane" data-pane="4">
+                <h3 class="est-question">Top Picks for You</h3>
+                <div id="est-result" class="est-result-box">
+                    <div class="est-rec-header">
+                        <div id="est-rec-type" class="est-rec-type">—</div>
+                        <p id="est-rec-hp" class="est-rec-hp"></p>
+                    </div>
+                    <div class="est-picks" id="est-picks"></div>
+                    <p class="est-note">All prices are discounted selling prices. Final quote depends on stock availability.</p>
+                </div>
+
+                <div class="est-nav-actions">
+                    <button type="button" class="btn btn-ghost" data-back="3">&larr; Back</button>
+                    <button type="button" class="btn btn-ghost" id="est-restart">Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="book" class="book-section">
+    <div class="section-header reveal">
+        <span class="section-badge">BOOK ONLINE</span>
+        <h2>Book a Service in 30 Seconds</h2>
+        <p>Tell us what you need and your preferred schedule — we'll confirm right away.</p>
+    </div>
+
+    <div class="book-grid reveal">
+        <form id="book-form" class="book-form" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="book-name">Full Name</label>
+                    <input type="text" id="book-name" name="name" placeholder="Juan Dela Cruz" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-phone">Mobile Number</label>
+                    <input type="tel" id="book-phone" name="phone" placeholder="09XX XXX XXXX" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="book-service">Service Needed</label>
+                    <select id="book-service" name="service" required>
+                        <option value="">Select a service...</option>
+                        <option>Aircon Cleaning</option>
+                        <option>Aircon Installation</option>
+                        <option>Repair & Troubleshooting</option>
+                        <option>Preventive Maintenance</option>
+                        <option>Freon Charging</option>
+                        <option>Commercial HVAC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="book-hp">Unit Size (HP)</label>
+                    <select id="book-hp" name="hp">
+                        <option value="">Not sure / N/A</option>
+                        <option>0.5 HP</option>
+                        <option>1.0 HP</option>
+                        <option>1.5 HP</option>
+                        <option>2.0 HP</option>
+                        <option>2.5 HP & up</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="book-date">Preferred Date</label>
+                    <input type="date" id="book-date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-time">Preferred Time</label>
+                    <select id="book-time" name="time" required>
+                        <option value="">Select time...</option>
+                        <option>Morning (8AM-12PM)</option>
+                        <option>Afternoon (12PM-4PM)</option>
+                        <option>Late Afternoon (4PM-7PM)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="book-notes">Notes (optional)</label>
+                <textarea id="book-notes" name="notes" rows="3" placeholder="e.g. 2 split-type units, unit on 2nd floor..."></textarea>
+            </div>
+
+            <div id="book-summary" class="book-summary hidden">
+                <h4>Here's your booking request:</h4>
+                <div id="book-summary-text" class="book-summary-text"></div>
+                <div class="summary-actions">
+                    <a href="https://m.me/RCairmakersbulacan" class="btn" id="book-messenger" target="_blank" rel="noopener noreferrer">Send via Messenger</a>
+                    <button type="button" class="btn btn-ghost" id="book-copy">Copy Message</button>
+                </div>
+                <p class="estimate-note">If Messenger doesn't prefill, tap "Copy Message" and paste it into any chat.</p>
+            </div>
+
+            <button type="submit" class="btn form-submit">Confirm Booking</button>
+        </form>
+
+        <aside class="book-aside">
+            <div>
+                <h3>Why book with us?</h3>
+                <ul>
+                    <li>Same-day & next-day availability</li>
+                    <li>Transparent pricing, no hidden fees</li>
+                    <li>Expert, experienced technicians</li>
+                    <li>Quality workmanship guaranteed</li>
+                </ul>
+            </div>
+
+            <div class="book-aside-contact">
+                <p>Prefer to talk?</p>
+                <a href="tel:09486060845" class="btn">0948-606-0845</a>
+                <a href="https://facebook.com/RCairmakersbulacan" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Message on Messenger</a>
+            </div>
+        </aside>
     </div>
 </section>
 
 <section id="gallery">
-    <h2 class="section-title">Projects Gallery</h2>
+    <h2 class="section-title reveal">Projects Gallery</h2>
     <div class="gallery-slider">
 		<video controls autoplay muted loop playsinline preload="metadata">
         <source src="videos/vid01.mp4" type="video/mp4">
@@ -250,22 +574,22 @@
 </section>
 
 <section id="team">
-    <h2 class="section-title">Meet Our Team</h2>
+    <h2 class="section-title reveal">Meet Our Team</h2>
 
     <div class="team">
-        <div class="member">
+        <div class="member reveal reveal-delay-1">
             <div class="member-image"><img src="images/ronnie.png" alt="Ronnie Rivera - CEO" loading="lazy"></div>
             <h3>Ronnie Rivera</h3>
             <p>Chief Executive Officer (CEO)</p>
         </div>
 
-        <div class="member">
+        <div class="member reveal reveal-delay-2">
             <div class="member-image"><img src="images/carla.png" alt="Carla Rivera - CFO" loading="lazy"></div>
             <h3>Carla Rivera</h3>
             <p>Chief Finance Officer</p>
         </div>
 
-        <div class="member">
+        <div class="member reveal reveal-delay-3">
             <div class="member-image"><img src="images/judith.jpg" alt="Judith Pamposa - HR Admin" loading="lazy"></div>
             <h3>Judith Pamposa</h3>
             <p>HR Admin</p>
@@ -274,22 +598,22 @@
 
     <br>
 
-    <h2 class="section-title">Sales Department</h2>
+    <h2 class="section-title reveal">Sales Department</h2>
 
     <div class="team">
-        <div class="member">
+        <div class="member reveal reveal-delay-1">
             <div class="member-image"><img src="images/raymond.jpg" alt="Raymond Mondejar - Sales Representative" loading="lazy"></div>
             <h3>Raymond Mondejar</h3>
             <p>Sales Representative (RCAES003)</p>
         </div>
 
-        <div class="member">
+        <div class="member reveal reveal-delay-2">
             <div class="member-image"><img src="images/trixie.jpg" alt="Trixie Semilla - Sales Representative" loading="lazy"></div>
             <h3>Trixie Semilla</h3>
             <p>Sales Representative (RCAES004)</p>
         </div>
 
-        <div class="member">
+        <div class="member reveal reveal-delay-3">
             <div class="member-image"><img src="images/jl.jpg" alt="Jan Lowee Ventura - Sales Representative" loading="lazy"></div>
             <h3>Jan Lowee Ventura</h3>
             <p>Sales Representative (RCAES005)</p>
@@ -298,26 +622,39 @@
 </section>
 
 <section id="reviews">
-    <h2 class="section-title">Customer Reviews</h2>
+    <h2 class="section-title reveal">Customer Reviews</h2>
 
-    <div class="team">
-        <div class="member">
-            <span role="img" aria-label="5 out of 5 stars">⭐⭐⭐⭐⭐</span>
+    <div class="rating-badge-wrap reveal">
+        <div class="rating-badge">
+            <span class="stars">★★★★★</span>
+            5.0
+            <span class="rating-label">from our customers</span>
+        </div>
+    </div>
+
+    <div class="reviews-grid">
+        <div class="review-card reveal reveal-delay-1">
+            <div class="review-stars">★★★★★</div>
             <p>Professional installation and excellent service.</p>
         </div>
-        <div class="member">
-            <span role="img" aria-label="5 out of 5 stars">⭐⭐⭐⭐⭐</span>
+        <div class="review-card reveal reveal-delay-2">
+            <div class="review-stars">★★★★★</div>
             <p>Very responsive and highly recommended.</p>
         </div>
-        <div class="member">
-            <span role="img" aria-label="5 out of 5 stars">⭐⭐⭐⭐⭐</span>
+        <div class="review-card reveal reveal-delay-3">
+            <div class="review-stars">★★★★★</div>
             <p>Quality workmanship and fair pricing.</p>
         </div>
+    </div>
+
+    <div class="review-actions reveal">
+        <a href="https://www.google.com/maps/search/?api=1&query=R%26C+Airmakers+Engineering+Services+Santa+Maria+Bulacan" class="btn" target="_blank" rel="noopener noreferrer">Review us on Google</a>
+        <a href="https://facebook.com/RCairmakersbulacan" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Review on Facebook</a>
     </div>
 </section>
 
 <section id="contact">
-    <h2 class="section-title">Contact Us</h2>
+    <h2 class="section-title reveal">Contact Us</h2>
 
     <div class="contact">
         <p>📍 B90 L22 Pagsikap Street, Pasinaya Phase 4, Catmon, Santa Maria, Bulacan</p>
@@ -328,9 +665,9 @@
 
         <p>📘 <a href="https://facebook.com/RCairmakersbulacan" target="_blank" rel="noopener noreferrer">facebook.com/RCairmakersbulacan</a></p>
 
-        <div style="width: 100%; max-width: 1200px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div class="map-wrapper reveal">
             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3857.081739960178!2d121.018767274822!3d14.820669871651448!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397afe45b54a8d1%3A0x507293475cee7002!2sR%26C%20AIRMAKERS%20ENGINEERING%20SERVICES!5e0!3m2!1sen!2sph!4v1783336930192!5m2!1sen!2sph"
+                src="https://maps.google.com/maps?q=B90+L22+Pagsikap+Street+Pasinaya+Phase+4+Catmon+Santa+Maria+Bulacan&t=&z=17&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="450"
                 style="border:0; display:block;"
@@ -348,6 +685,40 @@
         <img src="images/footer-banner.jpg" alt="R&C Airmakers Footer Banner" loading="lazy">
     </div>
 
+    <div class="footer-content">
+        <div class="footer-col">
+            <h4>R&C Airmakers</h4>
+            <p>Professional air conditioning installation, cleaning, maintenance, and repair services in Bulacan and nearby areas. Your comfort is our priority.</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="#about">About Us</a>
+            <a href="#calculator">Quote Calculator</a>
+            <a href="#book">Book Online</a>
+            <a href="#areas">Service Areas</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#team">Our Team</a>
+        </div>
+
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="#services">Aircon Installation</a>
+            <a href="#services">Aircon Cleaning</a>
+            <a href="#services">Preventive Maintenance</a>
+            <a href="#services">Repair & Troubleshooting</a>
+            <a href="#services">Commercial HVAC</a>
+        </div>
+
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="tel:09486060845">📱 0948-606-0845</a>
+            <a href="mailto:riveraronnie07@gmail.com">📧 Email Us</a>
+            <a href="https://facebook.com/RCairmakersbulacan" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+            <p>📍 Santa Maria, Bulacan</p>
+        </div>
+    </div>
+
     <div class="footer-bottom">
         <p>© 2026 R&C Airmakers Engineering Services</p>
         <p>Your Comfort, Our Priority.</p>
@@ -361,6 +732,8 @@
    aria-label="Chat with us on Facebook Messenger">
     💬
 </a>
+
+<script src="js/main.js"></script>
 
 <script>
     const menuToggle = document.querySelector('.menu-toggle');
@@ -382,21 +755,9 @@
 
 <script>
     // ===== PROMOS FROM GOOGLE SHEET =====
-    // 1. Create a Google Sheet with header row: Title | Description | ImageURL | Active | Expiry
-    //    - Title, Description: text
-    //    - ImageURL: path to a promo image hosted in this repo's /images folder
-    //      (e.g. "images/promo-aux-rainy.png"), leave blank if no image
-    //    - Active: type YES to show it, NO (or blank) to hide it
-    //    - Expiry: optional, format YYYY-MM-DD. Leave blank for no expiry.
-    // 2. Share the Sheet -> "Anyone with the link" -> Viewer
-    // 3. Copy the Sheet ID from its URL:
-    //    https://docs.google.com/spreadsheets/d/PASTE_THIS_PART_HERE/edit
-    // 4. Paste it below, between the quotes.
     const PROMOS_SHEET_ID = "1aL8449Xc3xgqcJS0OIR6BZSHXFTAVKSoICo_JtLKLww";
-    const PROMOS_SHEET_NAME = "Sheet1"; // change if you rename the tab
+    const PROMOS_SHEET_NAME = "Sheet1";
 
-    // Google Sheets gviz JSON returns date cells as "Date(YYYY,M,D)" (M is 0-indexed),
-    // not a normal date string - this parses that format safely.
     function parseGvizDate(v) {
         if (!v) return null;
         const match = String(v).match(/^Date\((\d+),(\d+),(\d+)\)$/);
